@@ -1,13 +1,17 @@
-create or alter schema atlassian_jira.raw
-with managed access
-data_retention_time_in_days = 1
-max_data_extension_time_in_days = 1
-object_visibility = privileged;
+use role sysadmin;
 
 create role if not exists atlassian_jira__raw;
 grant role atlassian_jira__raw to role atlassian_jira;
 grant ownership on role atlassian_jira__raw to role atlassian_jira copy current grants;
 grant ownership on schema atlassian_jira.raw to role atlassian_jira__raw;
+
+use role atlassian_jira;
+
+create or alter schema atlassian_jira.raw
+with managed access
+data_retention_time_in_days = 1
+max_data_extension_time_in_days = 1
+object_visibility = privileged;
 
 create database role if not exists atlassian_jira.raw__read;
 grant database role atlassian_jira.raw__read to role atlassian_jira__raw;
