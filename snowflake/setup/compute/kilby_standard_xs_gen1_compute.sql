@@ -14,8 +14,8 @@ create warehouse if not exists kilby
 
 create role if not exists compute_kilby;
 grant role compute_kilby to role compute_admin;
-grant ownership on role compute_kilby to compute_admin;
+grant ownership on role compute_kilby to role compute_admin copy current grants;
 
 create role if not exists usage_kilby;
 grant role usage_kilby to role compute_kilby;
-grant ownership on role usage_kilby to role compute_kilby;
+grant ownership on role usage_kilby to role compute_kilby copy current grants;
