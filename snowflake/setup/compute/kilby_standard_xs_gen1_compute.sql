@@ -19,3 +19,5 @@ grant ownership on role compute_kilby to role compute_admin copy current grants;
 create role if not exists usage_kilby;
 grant role usage_kilby to role compute_kilby;
 grant ownership on role usage_kilby to role compute_kilby copy current grants;
+
+grant usage on warehouse kilby to role usage_kilby;
