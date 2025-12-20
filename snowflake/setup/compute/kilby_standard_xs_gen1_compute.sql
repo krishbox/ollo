@@ -1,6 +1,6 @@
 use role sysadmin;
 
-create warehouse if not exists kilby
+create or alter warehouse kilby
 	warehouse_type = standard
 	warehouse_size = xsmall
 	resource_constraint = standard_gen_1
