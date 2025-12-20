@@ -8,7 +8,7 @@ create warehouse if not exists kilby
 	max_cluster_count = 1
 	scaling_policy = economy
 	auto_suspend = 120
-	auto_resume = true
+	auto_resume = false
 	enable_query_acceleration = false
 ;
 
