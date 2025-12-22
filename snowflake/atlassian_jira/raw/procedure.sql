@@ -6,9 +6,9 @@ create or replace procedure atlassian_jira.raw.copy_data(table_name string, init
 returns string
 language python
 resource_constraint=(architecture='x86')
--- external_access_integrations = (
---   atlassian_jira_delta_share
--- )
+external_access_integrations = (
+  atlassian_jira_delta_share
+)
 runtime_version = '3.13'
 artifact_repository = snowflake.snowpark.pypi_shared_repository
 packages = (
