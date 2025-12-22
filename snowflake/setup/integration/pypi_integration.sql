@@ -1,13 +1,10 @@
 use role sysadmin;
 
-create api integration if not exists pypi_integration
+create api integration if not exists pypi
 api_provider = pypi
 enabled = true;
 
-create role if not exists pypi_integration_admin;
-grant role pypi_integration_admin to role sysadmin;
-grant ownership on integration pypi_integration to role pypi_integration_admin;
-
-create role if not exists pypi_integration_user;
-grant role pypi_integration_user to role pypi_integration_admin;
-grant usage on integration pypi_integration to role pypi_integration_user;
+create role if not exists usage_integration_pypi;
+grant role usage_integration_pypi to role integration_admin;
+grant ownership on role usage_integration_pypi to role integration_admin copy current grants;
+grant usage on integration pypi to role usage_integration_pypi;
