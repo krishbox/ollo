@@ -1,4 +1,5 @@
 use role atlassian_jira__raw;
+use database atlassian_jira;
 use schema atlassian_jira.raw;
 
 create network rule if not exists atlassian_jira.raw.atlassian_jira_delta_share
