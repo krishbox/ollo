@@ -1,4 +1,5 @@
-use role accountadmin;
+use role sysadmin;
 
 create role if not exists privilege_admin;
-grant role privilege_admin to role accountadmin;
+grant ownership on role privilege_admin to role sysadmin copy current grants;
+grant role privilege_admin to role sysadmin;
