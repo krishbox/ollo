@@ -1,9 +1,9 @@
 use role sysadmin;
 
 create or alter warehouse kilby
-	warehouse_type = standard
+	warehouse_type = 'snowpark-optimized'
 	warehouse_size = xsmall
-	resource_constraint = standard_gen_1
+	resource_constraint = memory_1x_x86
 	min_cluster_count = 1
 	max_cluster_count = 1
 	scaling_policy = economy
