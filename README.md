@@ -4,7 +4,7 @@ Learn by doing, applying new data platform product features to real world use ca
 
 ## Databricks
 
-Projects implemented in [Databricks])(https://github.com/krishbox/ollo/tree/main/databricks)
+Projects implemented in [Databricks](https://github.com/krishbox/ollo/tree/main/databricks)
 
 ## Motherduck
 
