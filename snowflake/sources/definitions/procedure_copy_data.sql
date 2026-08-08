@@ -1,8 +1,4 @@
-use role atlassian_jira__raw;
-use database atlassian_jira;
-use schema atlassian_jira.raw;
-
-create or replace procedure atlassian_jira.raw.copy_data(table_name string, initialize boolean)
+define procedure {{jira_database}}.{{schema_name}}.copy_data(table_name string, initialize boolean)
 returns string
 language python
 resource_constraint=(architecture='x86')

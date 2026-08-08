@@ -1,6 +1,4 @@
-use role sysadmin;
-
-create or alter warehouse hopper
+define warehouse hopper
 	warehouse_type = 'standard'
 	warehouse_size = xsmall
   generation = '1'
@@ -9,20 +7,17 @@ create or alter warehouse hopper
 	max_cluster_count = 1
 	scaling_policy = economy
 	auto_suspend = 120
-	auto_resume = false
+	auto_resume = true
 	enable_query_acceleration = false
 ;
 
-create role if not exists compute_hopper;
+define role compute_hopper;
 grant role compute_hopper to role compute_admin;
-grant ownership on role compute_hopper to role compute_admin copy current grants;
 
-create role if not exists operate_hopper;
+define role operate_hopper;
 grant role operate_hopper to role compute_hopper;
-grant ownership on role operate_hopper to role compute_hopper copy current grants;
 grant operate on warehouse hopper to role operate_hopper;
 
-create role if not exists usage_hopper;
+define role usage_hopper;
 grant role usage_hopper to role compute_hopper;
-grant ownership on role usage_hopper to role compute_hopper copy current grants;
 grant usage on warehouse hopper to role usage_hopper;

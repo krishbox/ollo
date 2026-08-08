@@ -1,6 +1,4 @@
-use role sysadmin;
-
-create or alter warehouse kilby
+define warehouse kilby
 	warehouse_type = 'snowpark-optimized'
 	warehouse_size = xsmall
 	resource_constraint = memory_1x_x86
@@ -8,20 +6,17 @@ create or alter warehouse kilby
 	max_cluster_count = 1
 	scaling_policy = economy
 	auto_suspend = 120
-	auto_resume = false
+	auto_resume = true
 	enable_query_acceleration = false
 ;
 
-create role if not exists compute_kilby;
+define role compute_kilby;
 grant role compute_kilby to role compute_admin;
-grant ownership on role compute_kilby to role compute_admin copy current grants;
 
-create role if not exists operate_kilby;
+define role operate_kilby;
 grant role operate_kilby to role compute_kilby;
-grant ownership on role operate_kilby to role compute_kilby copy current grants;
 grant operate on warehouse kilby to role operate_kilby;
 
-create role if not exists usage_kilby;
+define role usage_kilby;
 grant role usage_kilby to role compute_kilby;
-grant ownership on role usage_kilby to role compute_kilby copy current grants;
 grant usage on warehouse kilby to role usage_kilby;
