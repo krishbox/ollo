@@ -14,8 +14,8 @@ To run administrative and bootstrap commands locally without browser logins or e
 
 ### 2. GitHub Actions (Workload Identity Federation / OIDC)
 To set up secretless authentication for the deployment pipeline:
-1. Open and customize **[`bootstrap/github_wif_user.sql`](file:///Users/krishna/Documents/projects/ollo/snowflake/bootstrap/github_wif_user.sql)** (replace `<org>/<repo>` with your repository details).
-2. Execute the script in Snowflake as `ACCOUNTADMIN` to create the OIDC service user.
+1. Open and customize **[`bootstrap/user/provisioner_user.sql`](file:///Users/krishna/Documents/projects/ollo/snowflake/bootstrap/user/provisioner_user.sql)**.
+2. Execute the script in Snowflake as `USER_ADMIN` to create the OIDC service user.
 
 ---
 
