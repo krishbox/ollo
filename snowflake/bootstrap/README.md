@@ -54,4 +54,5 @@ Once saved, any local commands (like `snow sql` or `snow dcm`) will authenticate
 ---
 
 ## 🔗 Related Resources
-* **[Create or Alter Guide](file:///Users/krishna/Documents/projects/ollo/snowflake/bootstrap/create_or_alter.md)**: Details on migrating legacy DDL scripts to declarative `create or alter` states.
+* **[Create or Alter Guide](create_or_alter.md)**: Details on migrating legacy DDL scripts to declarative `create or alter` states.
+* **[Account Setup Script](account_setup.sql)**: Account-level setup containing preview features activation and administrative setups.

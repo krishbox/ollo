@@ -10,11 +10,11 @@ The one-time first-run administration and security setup is separated from the d
 
 ### 1. Local Development (Key-Pair Authentication)
 To run administrative and bootstrap commands locally without browser logins or entering passwords:
-* Follow the step-by-step instructions in **[`bootstrap/README.md`](file:///Users/krishna/Documents/projects/ollo/snowflake/bootstrap/README.md)** to generate your RSA keys and configure your connection.
+* Follow the step-by-step instructions in **[`bootstrap/README.md`](bootstrap/README.md)** to generate your RSA keys and configure your connection.
 
 ### 2. GitHub Actions (Workload Identity Federation / OIDC)
 To set up secretless authentication for the deployment pipeline:
-1. Open and customize **[`bootstrap/user/provisioner_user.sql`](file:///Users/krishna/Documents/projects/ollo/snowflake/bootstrap/user/provisioner_user.sql)**.
+1. Open and customize **[`bootstrap/user/provisioner_user.sql`](bootstrap/user/provisioner_user.sql)**.
 2. Execute the script in Snowflake as `USER_ADMIN` to create the OIDC service user.
 
 ---
@@ -22,7 +22,7 @@ To set up secretless authentication for the deployment pipeline:
 ## 🚀 CI/CD Deployment Pipeline
 
 Once bootstrapping is complete, the continuous deployment pipeline is managed automatically via GitHub Actions:
-* **Workflow Configuration**: **[`.github/workflows/deploy.yml`](file:///Users/krishna/Documents/projects/ollo/snowflake/.github/workflows/deploy.yml)**.
+* **Workflow Configuration**: **[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)**.
 * **Trigger Conditions**: Runs conditionally whenever changes occur to:
   * `manifest.yml`
   * `pre_deploy.sql`
@@ -73,5 +73,5 @@ If you need to deploy manually from your laptop using your key-pair connection:
 * **`pre_deploy.sql`**: Consolidated script auto-discovered and run by DCM to establish database containers, integrations, and network rules.
 * **`deploy/pre_deploy/`**: Database-specific sub-scripts that assemble the pre-deploy file.
 * **`deploy/post_deploy/`**: Environment-specific SQL scripts to upload the Delta Sharing credentials profile to the stage and grant usage role privileges to database roles.
-* **`bootstrap/`**: Account-level one-time security and administration setup scripts (contains **[`bootstrap/README.md`](file:///Users/krishna/Documents/projects/ollo/snowflake/bootstrap/README.md)** and the **[`bootstrap/create_or_alter.md`](file:///Users/krishna/Documents/projects/ollo/snowflake/bootstrap/create_or_alter.md)** guide).
+* **`bootstrap/`**: Account-level one-time security and administration setup scripts (contains **[`bootstrap/README.md`](bootstrap/README.md)** and the **[`bootstrap/create_or_alter.md`](bootstrap/create_or_alter.md)** guide).
 * **`sources/definitions/`**: Declarative DDL definitions for databases, schemas, procedures, tasks, stages, and compute warehouses.

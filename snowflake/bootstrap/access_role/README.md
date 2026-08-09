@@ -36,4 +36,4 @@ This privilege is encapsulated in the custom `manage_grants` access role and ass
 ---
 
 ## 🔗 Related Resources
-* **[Inherited Grants Guide](file:///Users/krishna/Documents/projects/ollo/snowflake/bootstrap/access_role/inherited_grants.md)**: Details on migrating from legacy Future Grants to Inherited Grants.
+* **[Inherited Grants Guide](inherited_grants.md)**: Details on migrating from legacy Future Grants to Inherited Grants.
