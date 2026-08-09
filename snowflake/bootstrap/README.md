@@ -23,11 +23,15 @@ openssl rsa -in ~/.snowflake/snowflake_key.p8 -pubout -out ~/.snowflake/snowflak
 
 ### Step 2: Assign Public Key to your Snowflake User
 
-1. Copy the contents of the public key file `~/.snowflake/snowflake_key.pub` (**exclude** the `-----BEGIN PUBLIC KEY-----` and `-----END PUBLIC KEY-----` header and footer lines).
-2. Connect to Snowflake and run this SQL (replacing `admin` with your username and `<public_key_contents>` with your copied key):
+1. Format and copy the public key directly to your macOS clipboard by running this command in your terminal:
+   ```bash
+   grep -v "PUBLIC KEY" ~/.snowflake/snowflake_key.pub | tr -d '\n' | pbcopy
+   ```
+   *(This automatically strips the headers/footers, removes all newlines, and copies the clean string to your clipboard).*
+2. Connect to Snowflake and run this SQL (pasting the copied key string inside the single quotes):
 
 ```sql
-ALTER USER admin SET RSA_PUBLIC_KEY = '<public_key_contents>';
+alter user admin set rsa_public_key = '<public_key_contents>';
 ```
 
 ---
