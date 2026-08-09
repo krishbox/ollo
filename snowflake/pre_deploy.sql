@@ -1,49 +1,49 @@
 -- ===================================================
 -- DATABASE: OLLO_METADATA (Project State Tracking)
 -- ===================================================
-USE ROLE SYSADMIN;
-CREATE DATABASE IF NOT EXISTS ollo_metadata;
-CREATE SCHEMA IF NOT EXISTS ollo_metadata.dcm;
+use role sysadmin;
+create database if not exists ollo_metadata;
+create schema if not exists ollo_metadata.dcm;
 -- ===================================================
 -- DATABASE: ATLASSIAN_JIRA (Jira Ingestion Setup)
 -- ===================================================
-USE ROLE SYSADMIN;
-CREATE DATABASE IF NOT EXISTS atlassian_jira;
-CREATE SCHEMA IF NOT EXISTS atlassian_jira.raw;
+use role sysadmin;
+create database if not exists atlassian_jira;
+create schema if not exists atlassian_jira.raw;
 
 -- Create PyPI integration (requires ACCOUNTADMIN)
-USE ROLE ACCOUNTADMIN;
-CREATE API INTEGRATION IF NOT EXISTS pypi_integration
-  API_PROVIDER = pypi
-  ENABLED = true
+use role accountadmin;
+create api integration if not exists pypi_integration
+  api_provider = pypi
+  enabled = true
 ;
-GRANT USAGE ON INTEGRATION pypi_integration TO ROLE SYSADMIN;
+grant usage on integration pypi_integration to role sysadmin;
 
 -- Create Network Rule for Atlassian Jira Cloud Enterprise (requires SYSADMIN/SECURITYADMIN)
-USE ROLE SYSADMIN;
-CREATE OR REPLACE NETWORK RULE atlassian_jira.raw.atlassian_jira_delta_share
-  TYPE = host_port
-  MODE = egress
-  VALUE_LIST = (
+use role sysadmin;
+create or replace network rule atlassian_jira.raw.atlassian_jira_delta_share
+  type = host_port
+  mode = egress
+  value_list = (
     'api.atlassian.com:443',
     'atl-datalake-prod-*.s3.ap-southeast-2.amazonaws.com:443'
   )
 ;
 
 -- Create External Access Integration (requires ACCOUNTADMIN)
-USE ROLE ACCOUNTADMIN;
-CREATE EXTERNAL ACCESS INTEGRATION IF NOT EXISTS atlassian_jira_delta_share
-  ALLOWED_NETWORK_RULES = (atlassian_jira.raw.atlassian_jira_delta_share)
-  ENABLED = true
+use role accountadmin;
+create external access integration if not exists atlassian_jira_delta_share
+  allowed_network_rules = (atlassian_jira.raw.atlassian_jira_delta_share)
+  enabled = true
 ;
 
 -- Create Integration Role and Grant Usage (requires ACCOUNTADMIN)
-CREATE ROLE IF NOT EXISTS usage_integration_atlassian_jira_delta_share;
-GRANT USAGE ON INTEGRATION atlassian_jira_delta_share TO ROLE usage_integration_atlassian_jira_delta_share;
+create role if not exists usage_integration_atlassian_jira_delta_share;
+grant usage on integration atlassian_jira_delta_share to role usage_integration_atlassian_jira_delta_share;
 
 -- Create Artifact Repository for Pip packages (requires SYSADMIN)
-USE ROLE SYSADMIN;
-CREATE ARTIFACT REPOSITORY IF NOT EXISTS atlassian_jira.raw.pypi_repository
-  TYPE = pip
-  API_INTEGRATION = pypi_integration
+use role sysadmin;
+create artifact repository if not exists atlassian_jira.raw.pypi_repository
+  type = pip
+  api_integration = pypi_integration
 ;
