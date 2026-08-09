@@ -41,10 +41,12 @@ alter user admin set rsa_public_key = '<public_key_contents>';
 Update your Snowflake CLI configuration file (usually at `~/.snowflake/connections.toml` or `./connections.toml`) to reference the private key file:
 
 ```toml
-[FXB49207]
+[ollo-prod]
 account = "tib52397"
 user = "admin"
 private_key_path = "/Users/krishna/.snowflake/snowflake_key.p8"
+warehouse = "kilby"
+role = "sysadmin"
 ```
 
 Once saved, any local commands (like `snow sql` or `snow dcm`) will authenticate instantly without prompts!
