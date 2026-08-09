@@ -20,3 +20,5 @@ grant operate on warehouse kilby to role operate_kilby;
 define role usage_kilby;
 grant role usage_kilby to role compute_kilby;
 grant usage on warehouse kilby to role usage_kilby;
+
+grant ownership on warehouse hopper to role compute_kilby copy current grants;
