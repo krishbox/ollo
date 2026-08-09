@@ -1,6 +1,6 @@
 use role accountadmin;
 
-create role if not exists create_integration;
+create or alter role create_integration;
 grant role create_integration to role privilege_admin;
 grant ownership on role create_integration to role privilege_admin copy current grants;
 

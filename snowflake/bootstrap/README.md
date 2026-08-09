@@ -44,3 +44,8 @@ private_key_path = "/Users/krishna/.snowflake/snowflake_key.p8"
 ```
 
 Once saved, any local commands (like `snow sql` or `snow dcm`) will authenticate instantly without prompts!
+
+---
+
+## 🔗 Related Resources
+* **[Create or Alter Guide](file:///Users/krishna/Documents/projects/ollo/snowflake/bootstrap/create_or_alter.md)**: Details on migrating legacy DDL scripts to declarative `create or alter` states.

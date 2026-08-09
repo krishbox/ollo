@@ -2,8 +2,8 @@
 -- DATABASE: ATLASSIAN_JIRA (Jira Ingestion Setup)
 -- ===================================================
 use role sysadmin;
-create database if not exists atlassian_jira;
-create schema if not exists atlassian_jira.raw;
+create or alter database atlassian_jira;
+create or alter schema atlassian_jira.raw;
 
 -- Create PyPI integration (requires ACCOUNTADMIN)
 use role accountadmin;
@@ -32,7 +32,7 @@ create external access integration if not exists atlassian_jira_delta_share
 ;
 
 -- Create Integration Role and Grant Usage (requires ACCOUNTADMIN)
-create role if not exists usage_integration_atlassian_jira_delta_share;
+create or alter role usage_integration_atlassian_jira_delta_share;
 grant usage on integration atlassian_jira_delta_share to role usage_integration_atlassian_jira_delta_share;
 
 -- Create Artifact Repository for Pip packages (requires SYSADMIN)

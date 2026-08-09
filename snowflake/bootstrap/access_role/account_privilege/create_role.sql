@@ -1,6 +1,6 @@
 use role accountadmin;
 
-create role if not exists create_role;
+create or alter role create_role;
 grant role create_role to role privilege_admin;
 grant ownership on role create_role to role privilege_admin copy current grants;
 

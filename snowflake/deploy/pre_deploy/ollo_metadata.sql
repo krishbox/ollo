@@ -2,5 +2,5 @@
 -- DATABASE: OLLO_METADATA (Project State Tracking)
 -- ===================================================
 use role sysadmin;
-create database if not exists ollo_metadata;
-create schema if not exists ollo_metadata.dcm;
+create or alter database ollo_metadata;
+create or alter schema ollo_metadata.dcm;

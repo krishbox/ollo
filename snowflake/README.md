@@ -73,5 +73,5 @@ If you need to deploy manually from your laptop using your key-pair connection:
 * **`pre_deploy.sql`**: Consolidated script auto-discovered and run by DCM to establish database containers, integrations, and network rules.
 * **`deploy/pre_deploy/`**: Database-specific sub-scripts that assemble the pre-deploy file.
 * **`deploy/post_deploy/`**: Environment-specific SQL scripts to upload the Delta Sharing credentials profile to the stage and grant usage role privileges to database roles.
-* **`bootstrap/`**: Account-level one-time security and administration setup scripts.
+* **`bootstrap/`**: Account-level one-time security and administration setup scripts (contains **[`bootstrap/README.md`](file:///Users/krishna/Documents/projects/ollo/snowflake/bootstrap/README.md)** and the **[`bootstrap/create_or_alter.md`](file:///Users/krishna/Documents/projects/ollo/snowflake/bootstrap/create_or_alter.md)** guide).
 * **`sources/definitions/`**: Declarative DDL definitions for databases, schemas, procedures, tasks, stages, and compute warehouses.

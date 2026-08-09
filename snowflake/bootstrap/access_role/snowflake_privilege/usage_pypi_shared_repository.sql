@@ -1,6 +1,6 @@
 use role accountadmin;
 
-create role if not exists usage_pypi_shared_repository;
+create or alter role usage_pypi_shared_repository;
 grant role usage_pypi_shared_repository to role privilege_admin;
 grant ownership on role usage_pypi_shared_repository to role privilege_admin copy current grants;
 
