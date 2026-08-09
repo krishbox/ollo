@@ -1,4 +1,4 @@
-USE ROLE ACCOUNTADMIN;
+USE ROLE privilege_admin;
 
 -- Grant integration usage role to the database access roles
 GRANT ROLE usage_integration_atlassian_jira_delta_share TO ROLE atlassian_jira_admin;
