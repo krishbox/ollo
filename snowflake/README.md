@@ -2,61 +2,72 @@
 
 [Source Files](https://github.com/krishbox/ollo/tree/main/snowflake/atlassian_jira)
 
-## DCM Database Change Management Deployment
+---
 
-This repository uses Snowflake Database Change Management (DCM) to manage database, compute, staging, task, and procedure schemas declaratively.
+## 🛠️ Bootstrapping Setup
 
-### Prerequisites
+The one-time first-run administration and security setup is separated from the deployment pipeline.
 
-1. **Set Default Snowflake CLI Connection**:
-   Ensure your target Snowflake connection (`FXB49207`) is configured as the default connection:
-   ```bash
-   snow connection set-default FXB49207
-   ```
+### 1. Local Development (Key-Pair Authentication)
+To run administrative and bootstrap commands locally without browser logins or entering passwords:
+* Follow the step-by-step instructions in **[`bootstrap/README.md`](file:///Users/krishna/Documents/projects/ollo/snowflake/bootstrap/README.md)** to generate your RSA keys and configure your connection.
 
-2. **Wake up Compute Warehouse**:
-   If the default session warehouse (`hopper`) is suspended, wake it up (since it is configured to use least-privileged authentication parameters):
+### 2. GitHub Actions (Workload Identity Federation / OIDC)
+To set up secretless authentication for the deployment pipeline:
+1. Open and customize **[`bootstrap/github_wif_user.sql`](file:///Users/krishna/Documents/projects/ollo/snowflake/bootstrap/github_wif_user.sql)** (replace `<org>/<repo>` with your repository details).
+2. Execute the script in Snowflake as `ACCOUNTADMIN` to create the OIDC service user.
+
+---
+
+## 🚀 CI/CD Deployment Pipeline
+
+Once bootstrapping is complete, the continuous deployment pipeline is managed automatically via GitHub Actions:
+* **Workflow Configuration**: **[`.github/workflows/deploy.yml`](file:///Users/krishna/Documents/projects/ollo/snowflake/.github/workflows/deploy.yml)**.
+* **Trigger Conditions**: Runs conditionally whenever changes occur to:
+  * `manifest.yml`
+  * `pre_deploy.sql`
+  * `sources/**`
+  * `deploy/**`
+* **Environments**:
+  * Pushing to `main` targets **PROD** and uses `deploy/post_deploy/prod.sql`.
+  * Pull requests or pushes to other branches target **DEV** and use `deploy/post_deploy/dev.sql`.
+
+---
+
+## 💻 Manual Deployment Runbook
+
+If you need to deploy manually from your laptop using your key-pair connection:
+
+1. **Wake up Compute Warehouse**:
    ```bash
    snow sql -q "alter warehouse hopper resume;"
    ```
 
----
+2. **Deploy to DEV**:
+   ```bash
+   # Run pre-deploy DDL
+   snow sql -f pre_deploy.sql
+   # Deploy schema definitions
+   snow dcm plan --target DEV
+   snow dcm deploy --target DEV
+   # Run post-deploy file uploads
+   snow sql -f deploy/post_deploy/dev.sql
+   ```
 
-### Deployment Runbook
-
-#### 1. Development (DEV Target)
-
-Execute the pre-flight check, deploy the declarative definitions, and run target-specific post-deploy file staging and role grants:
-
-```bash
-# Generate the plan
-snow dcm plan --target DEV
-
-# Deploy the changes
-snow dcm deploy --target DEV
-
-# Run post-deployment staging and integration role grants
-snow sql -f deploy/post_deploy/dev.sql
-```
-
-#### 2. Production (PROD Target)
-
-Execute the plan and deployment for the isolated production target metadata:
-
-```bash
-# Generate the plan
-snow dcm plan --target PROD
-
-# Deploy the changes
-snow dcm deploy --target PROD
-
-# Run post-deployment staging and integration role grants
-snow sql -f deploy/post_deploy/prod.sql
-```
+3. **Deploy to PROD**:
+   ```bash
+   # Run pre-deploy DDL
+   snow sql -f pre_deploy.sql
+   # Deploy schema definitions
+   snow dcm plan --target PROD
+   snow dcm deploy --target PROD
+   # Run post-deploy file uploads
+   snow sql -f deploy/post_deploy/prod.sql
+   ```
 
 ---
 
-### Project Structure & Organization
+## 📁 Project Structure & Organization
 
 * **`manifest.yml`**: Defines target accounts and deployment environment variables.
 * **`pre_deploy.sql`**: Consolidated script auto-discovered and run by DCM to establish database containers, integrations, and network rules.
