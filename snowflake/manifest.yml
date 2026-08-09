@@ -8,22 +8,22 @@ default_target: PROD
 
 targets:
   DEV:
-    account_identifier: XTQKXIY-FXB49207
+    account_identifier: XTQKXIY-PROD
     project_name: ollo_metadata.dcm.ollo_project_dev
-    project_owner: SYSADMIN
+    project_owner: sysadmin
     templating_config: DEV
   PROD:
-    account_identifier: XTQKXIY-FXB49207
+    account_identifier: XTQKXIY-PROD
     project_name: ollo_metadata.dcm.ollo_project
-    project_owner: SYSADMIN
+    project_owner: sysadmin
     templating_config: PROD
 
 #---------------------------------------------
 
 templating:
   defaults:
-    project_owner_role: SYSADMIN
-    wh_size: "SMALL"
+    project_owner_role: sysadmin
+    wh_size: "X-SMALL"
     schema_name: "raw"
     databases:
       - "atlassian_delta_share"
@@ -33,13 +33,5 @@ templating:
   configurations:
     DEV:
       wh_size: "X-SMALL"
-      teams:
-        - name: "DEV_TEAM"
-          data_retention_days: 1
-          add_employees: TRUE
     PROD:
-      wh_size: "SMALL"
-      teams:
-        - name: "PROD_TEAM"
-          data_retention_days: 7
-          add_employees: TRUE
+      wh_size: "X-SMALL"
