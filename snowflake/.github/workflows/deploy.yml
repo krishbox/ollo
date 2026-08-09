@@ -1,0 +1,97 @@
+name: Deploy Snowflake DCM Project
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+    paths:
+      - 'manifest.yml'
+      - 'pre_deploy.sql'
+      - 'sources/**'
+      - 'deploy/**'
+  pull_request:
+    branches:
+      - main
+      - dev
+    paths:
+      - 'manifest.yml'
+      - 'pre_deploy.sql'
+      - 'sources/**'
+      - 'deploy/**'
+  workflow_dispatch:
+    inputs:
+      target_env:
+        description: 'Target Environment'
+        required: true
+        default: 'DEV'
+        type: choice
+        options:
+          - DEV
+          - PROD
+
+permissions:
+  id-token: write   # Required for requesting the JWT OIDC token
+  contents: read    # Required to check out the repository
+
+jobs:
+  deploy:
+    name: Deploy to Snowflake
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Determine Target Environment
+        id: set_target
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "env=${{ inputs.target_env }}" >> $GITHUB_OUTPUT
+          elif [ "${{ github.ref_name }}" = "main" ]; then
+            echo "env=PROD" >> $GITHUB_OUTPUT
+          else
+            echo "env=DEV" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Install & Configure Snowflake CLI
+        uses: snowflakedb/snowflake-actions@v3
+        with:
+          use-oidc: true
+          cli-version: "3.16"
+        env:
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USER: "provisioner_user"
+          # WIF uses short-lived tokens minted automatically by GitHub Actions
+          SNOWFLAKE_AUTHENTICATOR: "WORKLOAD_IDENTITY"
+
+      - name: Verify Session & Resume Warehouse
+        run: |
+          snow sql -q "alter warehouse hopper resume;"
+
+      - name: Execute Pre-Deploy Companion Script
+        run: |
+          # pre_deploy.sql builds database containers, integrations, and network rules
+          snow sql -f pre_deploy.sql
+
+      - name: Compile and Deploy DCM changes
+        run: |
+          TARGET="${{ steps.set_target.outputs.env }}"
+          echo "Deploying to target: $TARGET"
+          
+          # Generate change plan
+          snow dcm plan --target $TARGET
+          
+          # Execute declarative DDL updates
+          snow dcm deploy --target $TARGET
+
+      - name: Execute Post-Deploy Companion Script
+        run: |
+          TARGET="${{ steps.set_target.outputs.env }}"
+          LOWER_TARGET=$(echo "$TARGET" | tr '[:upper:]' '[:lower:]')
+          echo "Executing post-deploy script: deploy/post_deploy/${LOWER_TARGET}.sql"
+          
+          # Execute target-specific post-deploy file uploads & grants
+          snow sql -f deploy/post_deploy/${LOWER_TARGET}.sql
