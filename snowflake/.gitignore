@@ -1,0 +1,27 @@
+# Python Virtual Environments & Caches
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Snowflake Secrets, Key-Pairs, & Profiles
+*.p8
+*.pub
+*.pem
+*.key
+*.share
+profile
+profile.json
+connections.toml
+*connections.toml
+*secrets*
+
+# IDE, OS, & Temporary Files
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.tmp
