@@ -72,7 +72,7 @@ jobs:
 
       - name: Verify Session & Resume Warehouse
         run: |
-          snow sql -q "alter warehouse hopper resume;"
+          snow sql -q "alter warehouse hopper resume;" -x
 
       - name: Assemble Pre-Deploy SQL Script
         run: |
@@ -82,7 +82,7 @@ jobs:
       - name: Execute Pre-Deploy Companion Script
         run: |
           # Executing consolidated pre_deploy DDL
-          snow sql -f pre_deploy.sql
+          snow sql -f pre_deploy.sql -x
 
       - name: Compile and Deploy DCM changes
         run: |
@@ -90,10 +90,10 @@ jobs:
           echo "Deploying to target: $TARGET"
           
           # Generate change plan
-          snow dcm plan --target $TARGET
+          snow dcm plan --target $TARGET -x
           
           # Execute declarative DDL updates
-          snow dcm deploy --target $TARGET
+          snow dcm deploy --target $TARGET -x
 
       - name: Execute Post-Deploy Companion Script
         run: |
@@ -102,4 +102,4 @@ jobs:
           echo "Executing post-deploy script: deploy/post_deploy/${LOWER_TARGET}.sql"
           
           # Execute target-specific post-deploy file uploads & grants
-          snow sql -f deploy/post_deploy/${LOWER_TARGET}.sql
+          snow sql -f deploy/post_deploy/${LOWER_TARGET}.sql -x
