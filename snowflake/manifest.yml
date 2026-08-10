@@ -24,11 +24,10 @@ templating:
   defaults:
     project_owner_role: sysadmin
     wh_size: "X-SMALL"
-    schema_name: "raw"
     databases:
-      - "atlassian_delta_share"
-      - "atlassian_jira"
-    jira_database: "atlassian_jira"
+      - name: "atlassian_jira"
+        schemas:
+          - "raw"
 
   configurations:
     DEV:

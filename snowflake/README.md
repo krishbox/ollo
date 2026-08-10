@@ -45,6 +45,8 @@ If you need to deploy manually from your laptop using your key-pair connection:
 
 2. **Deploy to DEV**:
    ```bash
+   # Assemble pre-deploy DDL
+   cat deploy/pre_deploy/*.sql > pre_deploy.sql
    # Run pre-deploy DDL
    snow sql -f pre_deploy.sql
    # Deploy schema definitions
@@ -56,6 +58,8 @@ If you need to deploy manually from your laptop using your key-pair connection:
 
 3. **Deploy to PROD**:
    ```bash
+   # Assemble pre-deploy DDL
+   cat deploy/pre_deploy/*.sql > pre_deploy.sql
    # Run pre-deploy DDL
    snow sql -f pre_deploy.sql
    # Deploy schema definitions
