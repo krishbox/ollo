@@ -39,6 +39,13 @@ jobs:
     defaults:
       run:
         working-directory: snowflake
+    env:
+      SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+      SNOWFLAKE_USER: "provisioner_user"
+      SNOWFLAKE_AUTHENTICATOR: "WORKLOAD_IDENTITY"
+      SNOWFLAKE_CONNECTIONS_DEFAULT_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+      SNOWFLAKE_CONNECTIONS_DEFAULT_USER: "provisioner_user"
+      SNOWFLAKE_CONNECTIONS_DEFAULT_AUTHENTICATOR: "WORKLOAD_IDENTITY"
 
     steps:
       - name: Checkout repository
@@ -62,11 +69,6 @@ jobs:
         with:
           use-oidc: true
           cli-version: "3.16"
-        env:
-          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-          SNOWFLAKE_USER: "provisioner_user"
-          # WIF uses short-lived tokens minted automatically by GitHub Actions
-          SNOWFLAKE_AUTHENTICATOR: "WORKLOAD_IDENTITY"
 
       - name: Verify Session & Resume Warehouse
         run: |
