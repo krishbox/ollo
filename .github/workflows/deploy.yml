@@ -6,19 +6,17 @@ on:
       - main
       - dev
     paths:
-      - 'manifest.yml'
-      - 'pre_deploy.sql'
-      - 'sources/**'
-      - 'deploy/**'
+      - 'snowflake/manifest.yml'
+      - 'snowflake/sources/**'
+      - 'snowflake/deploy/**'
   pull_request:
     branches:
       - main
       - dev
     paths:
-      - 'manifest.yml'
-      - 'pre_deploy.sql'
-      - 'sources/**'
-      - 'deploy/**'
+      - 'snowflake/manifest.yml'
+      - 'snowflake/sources/**'
+      - 'snowflake/deploy/**'
   workflow_dispatch:
     inputs:
       target_env:
@@ -38,6 +36,9 @@ jobs:
   deploy:
     name: Deploy to Snowflake
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: snowflake
 
     steps:
       - name: Checkout repository
