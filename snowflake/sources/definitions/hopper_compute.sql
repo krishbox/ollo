@@ -6,7 +6,7 @@ define warehouse hopper
 	min_cluster_count = 1
 	max_cluster_count = 1
 	scaling_policy = economy
-	auto_suspend = 59
+	auto_suspend = 45
 	auto_resume = true
 	enable_query_acceleration = false
 ;
