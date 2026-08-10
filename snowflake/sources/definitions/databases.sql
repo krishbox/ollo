@@ -42,7 +42,7 @@ grant ownership on schema {{db.name}}.{{schema_name}} to role {{db.name}}__{{sch
 
 define role {{db.name}}__{{schema_name}}__read;
 grant ownership on role {{db.name}}__{{schema_name}}__read to role {{db.name}}__{{schema_name}};
-grant role {{db.name}}__{{schema_name}}__read to role {{db_name}}__{{schema_name}};
+grant role {{db.name}}__{{schema_name}}__read to role {{db.name}}__{{schema_name}};
 grant inherited select on all tables in schema {{db.name}}.{{schema_name}} to role {{db.name}}__{{schema_name}}__read;
 
 -- Schema-level Grants
