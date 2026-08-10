@@ -51,6 +51,23 @@ role = "sysadmin"
 
 Once saved, any local commands (like `snow sql` or `snow dcm`) will authenticate instantly without prompts!
 
+## 🛠️ Manual Bootstrap Operations (One-time Setup)
+
+Certain operations are privileged or rely on local files that cannot be executed in the automated cloud CI/CD pipelines:
+
+### 1. Provisioning Integrations
+Integrations are account-level objects that require `ACCOUNTADMIN` rights. Before running deployments, execute the files inside **[`bootstrap/integration/`](file:///Users/krishna/Documents/projects/ollo/snowflake/bootstrap/integration/)** manually in Snowsight or via SnowSQL.
+
+### 2. Uploading the Delta Sharing Profile File
+Because the credentials file is located on your local laptop, it must be uploaded to the stage manually. 
+
+Execute the instructions in **[`bootstrap/integration/upload_profile.sql`](file:///Users/krishna/Documents/projects/ollo/snowflake/bootstrap/integration/upload_profile.sql)** from your local terminal to upload the file to your environment's stage:
+
+```bash
+# Example for DEV (run from your local machine):
+snow sql -f bootstrap/integration/upload_profile.sql -x
+```
+
 ---
 
 ## 🔗 Related Resources
