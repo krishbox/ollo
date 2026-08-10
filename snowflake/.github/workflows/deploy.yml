@@ -71,9 +71,14 @@ jobs:
         run: |
           snow sql -q "alter warehouse hopper resume;"
 
+      - name: Assemble Pre-Deploy SQL Script
+        run: |
+          # Dynamically merge all database-specific pre-deploy DDL scripts
+          cat deploy/pre_deploy/*.sql > pre_deploy.sql
+
       - name: Execute Pre-Deploy Companion Script
         run: |
-          # pre_deploy.sql builds database containers, integrations, and network rules
+          # Executing consolidated pre_deploy DDL
           snow sql -f pre_deploy.sql
 
       - name: Compile and Deploy DCM changes
