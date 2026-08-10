@@ -1,4 +1,4 @@
-define procedure {{jira_database}}.{{schema_name}}.copy_data(table_name string, initialize boolean)
+define procedure atlassian_jira.raw.copy_data(table_name string, initialize boolean)
 returns string
 language python
 resource_constraint=(architecture='x86')
